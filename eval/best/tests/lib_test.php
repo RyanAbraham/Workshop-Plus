@@ -49,7 +49,7 @@ class workshopeval_best_evaluation_testcase extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $workshop = $this->getDataGenerator()->create_module('workshop', array('evaluation' => 'best', 'course' => $course));
         $cm = get_fast_modinfo($course)->instances['workshop'][$workshop->id];
-        $this->workshop = new workshop($workshop, $cm, $course);
+        $this->workshop = new workshopplus($workshop, $cm, $course);
         $this->evaluator = new testable_workshop_best_evaluation($this->workshop);
     }
 

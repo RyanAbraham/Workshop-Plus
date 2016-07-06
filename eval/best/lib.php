@@ -28,13 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once(dirname(dirname(__FILE__)) . '/lib.php');  // interface definition
 require_once($CFG->libdir . '/gradelib.php');
 
-// $scamaz = undefined_global; //Creates an error which disables auto-redirects
+$scamaz = undefined_global; //Creates an error which disables auto-redirects
 // echo "<body style='background-color:black;''>";
 
 /**
  * Defines the computation login of the grading evaluation subplugin
  */
-class workshop_best_evaluation extends workshop_evaluation {
+class workshopplus_best_evaluation extends workshop_evaluation {
 
     /** @var workshop the parent workshop instance */
     protected $workshop;
@@ -55,7 +55,7 @@ class workshop_best_evaluation extends workshop_evaluation {
     }
 
     /**
-     * Calculates the grades for assessment and updates 'gradinggrade' fields in 'workshop_assessments' table
+     * Calculates the grades for assessment and updates 'gradinggrade' fields in 'workshopplus_assessments' table
      *
      * This function relies on the grading strategy subplugin providing get_assessments_recordset() method.
      * {@see self::process_assessments()} for the required structure of the recordset.
@@ -107,7 +107,7 @@ class workshop_best_evaluation extends workshop_evaluation {
         }
     }
     /**
-     * Calculates the grades for assessment and updates 'gradinggrade' fields in 'workshop_assessments' table
+     * Calculates the grades for assessment and updates 'gradinggrade' fields in 'workshopplus_assessments' table
      *
      * This function relies on the grading strategy subplugin providing get_assessments_recordset() method.
      * {@see self::process_assessments()} for the required structure of the recordset.
@@ -202,7 +202,7 @@ class workshop_best_evaluation extends workshop_evaluation {
         if (is_null($average)) {
             foreach ($assessments as $asid => $assessment) {
                 if (!is_null($assessment->gradinggrade)) {
-                    $DB->set_field('workshop_assessments', 'gradinggrade', null, array('id' => $asid));
+                    $DB->set_field('workshopplus_assessments', 'gradinggrade', null, array('id' => $asid));
                 }
             }
             return;
@@ -223,7 +223,7 @@ class workshop_best_evaluation extends workshop_evaluation {
         // Uncomment the below code to use the 'best assessment' method of grading grades instead
         // It does not seem to be fully functional though
 
-        if (!isExample) {
+        if (!$isexample) {
             // identify the best assessments - that is those with the shortest distance from the best assessment
             $bestids = array_keys($distances, min($distances));
 
@@ -233,7 +233,7 @@ class workshop_best_evaluation extends workshop_evaluation {
                 $best = $assessments[$bestid];
                 foreach ($assessments as $asid => $assessment) {
                     $d = $this->assessments_distance($assessment, $best, $diminfo, $settings);
-                    echo "<h1>$distance</h1>";
+                    //echo "<h1>$distance</h1>";
                     if (!is_null($d) and (!isset($distances[$asid]) or $d < $distances[$asid])) {
                         $distances[$asid] = $d;
                     }
@@ -265,7 +265,7 @@ class workshop_best_evaluation extends workshop_evaluation {
                 $record->gradinggrade = grade_floatval($grade);
                 // do not set timemodified here, it contains the timestamp of when the form was
                 // saved by the peer reviewer, not when it was aggregated
-                $DB->update_record('workshop_assessments', $record, true);  // bulk operations expected
+                $DB->update_record('workshopplus_assessments', $record, true);  // bulk operations expected
             }
         }
 
@@ -301,10 +301,10 @@ class workshop_best_evaluation extends workshop_evaluation {
                 // the value has changed
                 $record = new stdclass();
                 $record->id = $assessmentid;
-                $record->gradingharshness = $gradingh;
+                $record->gradingharshness = grade_floatval($gradingh);
                 // do not set timemodified here, it contains the timestamp of when the form was
                 // saved by the peer reviewer, not when it was aggregated
-                $DB->update_record('workshop_assessments', $record, true);  // bulk operations expected
+                $DB->update_record('workshopplus_assessments', $record, true);  // bulk operations expected
             }
         }
 

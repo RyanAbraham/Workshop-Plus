@@ -33,7 +33,7 @@ class workshopplus_submission_form extends moodleform {
         $mform = $this->_form;
 
         $current        = $this->_customdata['current'];
-        $workshop       = $this->_customdata['workshopplus'];
+        $workshop       = $this->_customdata['workshop'];
         $contentopts    = $this->_customdata['contentopts'];
         $attachmentopts = $this->_customdata['attachmentopts'];
 

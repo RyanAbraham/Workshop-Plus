@@ -39,7 +39,7 @@ require_once($CFG->libdir . '/gradelib.php');           // to handle float vs de
  * @param array $options additional options affecting the file serving
  * @return bool
  */
-function workshopform_rubric_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
+function workshopformplus_rubric_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
     global $DB;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -53,11 +53,11 @@ function workshopform_rubric_pluginfile($course, $cm, $context, $filearea, array
     }
 
     $itemid = (int)array_shift($args); // the id of the assessment form dimension
-    if (!$workshop = $DB->get_record('workshop', array('id' => $cm->instance))) {
+    if (!$workshop = $DB->get_record('workshopplus', array('id' => $cm->instance))) {
         send_file_not_found();
     }
 
-    if (!$dimension = $DB->get_record('workshopform_rubric', array('id' => $itemid, 'workshopid' => $workshop->id))) {
+    if (!$dimension = $DB->get_record('workshopplusform_rubric', array('id' => $itemid, 'workshopid' => $workshop->id))) {
         send_file_not_found();
     }
 
@@ -65,7 +65,7 @@ function workshopform_rubric_pluginfile($course, $cm, $context, $filearea, array
     // (media embedded into the dimension description)
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
-    $fullpath = "/$context->id/workshopform_rubric/$filearea/$itemid/$relativepath";
+    $fullpath = "/$context->id/workshopplusform_rubric/$filearea/$itemid/$relativepath";
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
         return false;
     }
@@ -77,7 +77,7 @@ function workshopform_rubric_pluginfile($course, $cm, $context, $filearea, array
 /**
  * Rubric grading strategy logic.
  */
-class workshop_rubric_strategy implements workshop_strategy {
+class workshopplus_rubric_strategy implements workshop_strategy {
 
     /** @const default number of dimensions to show */
     const MINDIMS = 3;
@@ -320,10 +320,10 @@ class workshop_rubric_strategy implements workshop_strategy {
 
             if (empty($grade->id)) {
                 // new grade
-                $grade->id = $DB->insert_record('workshop_grades', $grade);
+                $grade->id = $DB->insert_record('workshopplus_grades', $grade);
             } else {
                 // updated grade
-                $DB->update_record('workshop_grades', $grade);
+                $DB->update_record('workshopplus_grades', $grade);
             }
         }
         return $this->update_peer_grade($assessment);

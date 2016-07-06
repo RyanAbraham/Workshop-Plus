@@ -54,11 +54,11 @@ function workshopplusform_accumulative_pluginfile($course, $cm, $context, $filea
     }
 
     $itemid = (int)array_shift($args); // the id of the assessment form dimension
-    if (!$workshop = $DB->get_record('workshop', array('id' => $cm->instance))) {
+    if (!$workshop = $DB->get_record('workshopplus', array('id' => $cm->instance))) {
         send_file_not_found();
     }
 
-    if (!$dimension = $DB->get_record('workshopform_accumulative', array('id' => $itemid , 'workshopid' => $workshop->id))) {
+    if (!$dimension = $DB->get_record('workshopplusform_accumulative', array('id' => $itemid , 'workshopid' => $workshop->id))) {
         send_file_not_found();
     }
 
@@ -66,7 +66,7 @@ function workshopplusform_accumulative_pluginfile($course, $cm, $context, $filea
     // (media embedded into the dimension description)
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
-    $fullpath = "/$context->id/workshopform_accumulative/$filearea/$itemid/$relativepath";
+    $fullpath = "/$context->id/workshopplusform_accumulative/$filearea/$itemid/$relativepath";
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
         return false;
     }
@@ -278,10 +278,10 @@ class workshopplus_accumulative_strategy extends workshop_accumulative_strategy 
             $grade->peercommentformat = FORMAT_MOODLE;
             if (empty($grade->id)) {
                 // new grade
-                $grade->id = $DB->insert_record('workshop_grades', $grade);
+                $grade->id = $DB->insert_record('workshopplus_grades', $grade);
             } else {
                 // updated grade
-                $DB->update_record('workshop_grades', $grade);
+                $DB->update_record('workshopplus_grades', $grade);
             }
         }
         return $this->update_peer_grade($assessment);

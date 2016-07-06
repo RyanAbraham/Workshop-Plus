@@ -19,7 +19,7 @@
  *
  * All the workshop specific functions, needed to implement the module
  * logic, should go to here. Instead of having bunch of function named
- * workshop_something() taking the workshop instance as the first
+ * workshopplus_something() taking the workshop instance as the first
  * parameter, we use a class workshop that provides all methods.
  *
  * @package    mod_workshopplus
@@ -436,6 +436,29 @@ class workshopplus extends workshop {
         return true;
     }
 
+
+
+    /**
+     * Saves a raw grade for submission as calculated from the assessment form fields
+     *
+     * @param array $assessmentid assessment record id, must exists
+     * @param mixed $grade        raw percentual grade from 0.00000 to 100.00000
+     * @return false|float        the saved grade
+     */
+    public function set_peer_grade($assessmentid, $grade) {
+        global $DB;
+
+        if (is_null($grade)) {
+            return false;
+        }
+        $data = new stdclass();
+        $data->id = $assessmentid;
+        $data->grade = $grade;
+        $data->timemodified = time();
+        $DB->update_record('workshopplus_assessments', $data);
+        return $grade;
+    }
+
     /**
      * Returns the list of all grading grades in the workshop with some data added
      *
@@ -510,7 +533,7 @@ class workshopplus extends workshop {
     /**
      * Delete assessment record or records.
      *
-     * Removes associated records from the workshop_grades table, too.
+     * Removes associated records from the workshopplus_grades table, too.
      *
      * @param int|array $id assessment id or array of assessments ids
      * @todo Give grading strategy plugins a chance to clean up their data, too.
@@ -548,7 +571,7 @@ class workshopplus extends workshop {
         $assessment->feedbackauthorformat   = editors_get_preferred_format();
         $assessment->feedbackreviewerformat = editors_get_preferred_format();
 
-        return $DB->insert_record('workshop_assessments', $assessment, true, $bulk);
+        return $DB->insert_record('workshopplus_assessments', $assessment, true, $bulk);
     }
 
     public function delete_assessment($id) {
@@ -593,7 +616,7 @@ class workshopplus extends workshop {
             } else {
                 throw new coding_exception('the grading forms subplugin must contain library ' . $strategylib);
             }
-            $classname = 'workshop_' . $this->strategy . '_strategy';
+            $classname = 'workshopplus_' . $this->strategy . '_strategy';
             $this->strategyinstance = new $classname($this);
             if (!in_array('workshop_strategy', class_implements($this->strategyinstance))) {
                 throw new coding_exception($classname . ' does not implement workshop_strategy interface');
@@ -628,7 +651,7 @@ class workshopplus extends workshop {
                     throw new coding_exception('Missing default grading evaluation library ' . $evaluationlib);
                 }
             }
-            $classname = 'workshop_' . $this->evaluation . '_evaluation';
+            $classname = 'workshopplus_' . $this->evaluation . '_evaluation';
             $this->evaluationinstance = new $classname($this);
             if (!in_array('workshop_evaluation', class_parents($this->evaluationinstance))) {
                 throw new coding_exception($classname . ' does not extend workshop_evaluation class');
@@ -652,7 +675,7 @@ class workshopplus extends workshop {
         } else {
             throw new coding_exception('Unable to find the allocation library ' . $allocationlib);
         }
-        $classname = 'workshop_' . $method . '_allocator';
+        $classname = 'workshopplus_' . $method . '_allocator';
         return new $classname($this);
     }
 
@@ -747,9 +770,9 @@ class workshopplus extends workshop {
      * @param int $aid assessment id
      * @return moodle_url of the page to compare the reference assessments of the given example submission
      */
-    public function excompare_url($sid, $aid) {
+    public function excompare_url($sid, $aid, $exas = false) {
         global $CFG;
-        return new moodle_url('/mod/workshopplus/excompare.php', array('cmid' => $this->cm->id, 'sid' => $sid, 'aid' => $aid));
+        return new moodle_url('/mod/workshopplus/excompare.php', array('cmid' => $this->cm->id, 'sid' => $sid, 'aid' => $aid, 'exas' => $exas));
     }
 
     /**
@@ -1228,7 +1251,7 @@ class workshopplus extends workshop {
         $assessments = $DB->get_records_sql($sql, array('workshopid' => $this->id));
         $this->delete_assessment(array_keys($assessments));
 
-        $DB->delete_records('workshop_aggregations', array('workshopid' => $this->id));
+        $DB->delete_records('workshopplus_aggregations', array('workshopid' => $this->id));
 
         return true;
     }

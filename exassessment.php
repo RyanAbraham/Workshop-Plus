@@ -35,7 +35,7 @@ require_login($course, false, $cm);
 if (isguestuser()) {
     print_error('guestsarenotallowed');
 }
-$workshop = new workshop($workshop, $cm, $course);
+$workshop = new workshopplus($workshop, $cm, $course);
 
 $PAGE->set_url($workshop->exassess_url($assessment->id));
 $PAGE->set_title($workshop->name);
@@ -118,7 +118,7 @@ if ($mform->is_cancelled()) {
     }
     // Update the assessment data if there is something other than just the 'id'.
     if (count((array)$coredata) > 1 ) {
-        $DB->update_record('workshop_assessments', $coredata);
+        $DB->update_record('workshopplus_assessments', $coredata);
     }
 
     if (!is_null($rawgrade) and isset($data->saveandclose)) {

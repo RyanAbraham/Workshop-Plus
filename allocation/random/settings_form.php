@@ -29,7 +29,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 /**
  * Allocator settings form
  *
- * This is used by {@see workshop_random_allocator::ui()} to set up allocation parameters.
+ * This is used by {@see workshopplus_random_allocator::ui()} to set up allocation parameters.
  *
  * @copyright 2009 David Mudrak <david.mudrak@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -61,15 +61,15 @@ class workshopplus_random_allocator_form extends moodleform {
         $mform->addElement('static', 'groupmode', get_string('groupmode', 'group'), $grouplabel);
 
         $optionsnumper = array(
-            workshop_random_allocator_setting::NUMPER_SUBMISSION => get_string('numperauthor', 'workshopallocation_random'),
-            workshop_random_allocator_setting::NUMPER_REVIEWER   => get_string('numperreviewer', 'workshopallocation_random')
+            workshopplus_random_allocator_setting::NUMPER_SUBMISSION => get_string('numperauthor', 'workshopallocation_random'),
+            workshopplus_random_allocator_setting::NUMPER_REVIEWER   => get_string('numperreviewer', 'workshopallocation_random')
         );
         $grpnumofreviews = array();
         $grpnumofreviews[] = $mform->createElement('select', 'numofreviews', '',
-                workshop_random_allocator::available_numofreviews_list());
+                workshopplus_random_allocator::available_numofreviews_list());
         $mform->setDefault('numofreviews', $plugindefaults->numofreviews);
         $grpnumofreviews[] = $mform->createElement('select', 'numper', '', $optionsnumper);
-        $mform->setDefault('numper', workshop_random_allocator_setting::NUMPER_SUBMISSION);
+        $mform->setDefault('numper', workshopplus_random_allocator_setting::NUMPER_SUBMISSION);
         $mform->addGroup($grpnumofreviews, 'grpnumofreviews', get_string('numofreviews', 'workshopallocation_random'),
                 array(' '), false);
 

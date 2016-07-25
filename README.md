@@ -20,21 +20,3 @@ Open up moodle and navigate to the installation of a new plugin.
 ## Workshop
 
 Since this is an extension of the moodle plugin workshop the user is required to download the workshop plugin prior to the installion of Workshop-Plus. To install a plugin on moodle simply go to the course of your choosing, turn on editing and add an activity or resource with the name of the plugin of your choosing. It will then be displayed with the associated course and remain there even after you turn editing back off.
-
-█████████████▀▀▀▀▀▀▀▀▀▀▀▀▀█████████████ 
-████████▀▀░░░░░░░░░░░░░░░░░░░▀▀████████ 
-██████▀░░░░░░░░░░░░░░░░░░░░░░░░░▀██████ 
-█████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█████ 
-████░░░░░▄▄▄▄▄▄▄░░░░░░░░▄▄▄▄▄▄░░░░░████ 
-████░░▄██████████░░░░░░██▀░░░▀██▄░░████ 
-████░░███████████░░░░░░█▄░░▀░░▄██░░████ 
-█████░░▀▀███████░░░██░░░██▄▄▄█▀▀░░█████ 
-██████░░░░░░▄▄▀░░░████░░░▀▄▄░░░░░██████ 
-█████░░░░░█▄░░░░░░▀▀▀▀░░░░░░░█▄░░░█████ 
-█████░░░▀▀█░█▀▄▄▄▄▄▄▄▄▄▄▄▄▄▀██▀▀░░█████ 
-██████░░░░░▀█▄░░█░░█░░░█░░█▄▀░░░░██▀▀▀▀ 
-▀░░░▀██▄░░░░░░▀▀█▄▄█▄▄▄█▄▀▀░░░░▄█▀░░░▄▄ 
-▄▄▄░░░▀▀██▄▄▄▄░░░░░░░░░░░░▄▄▄███░░░▄██▄ 
-██████▄▄░░▀█████▀█████▀██████▀▀░░▄█████ 
-██████████▄░░▀▀█▄░░░░░▄██▀▀▀░▄▄▄███▀▄██ 
-███████████░██░▄██▄▄▄▄█▄░▄░████████░███ 
